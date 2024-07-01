@@ -1,6 +1,7 @@
 from django.db import models # type: ignore
 from category.models import Category
 from agents.models import Agent
+from django.urls import reverse # type: ignore
 # Create your models here.
 
 class Property(models.Model): 
@@ -24,4 +25,8 @@ class Property(models.Model):
     class Meta: 
         verbose_name = 'property'
         verbose_name_plural = 'properties'
+
+    def property_url(self): 
+
+        return reverse('single_property', args=[self.slug])
     

@@ -1,5 +1,5 @@
 from django.shortcuts import render # type: ignore
-
+from .models import Property
 # Create your views here.
 
 def property(request): 
@@ -10,6 +10,13 @@ def add_property(request):
 
     return render(request, 'realestate/pages/add_property.html')
 
-def single_property(request):
+def single_property(request, property_slug):
 
-    return render(request, 'realestate/pages/single_property.html')
+    single_property = Property.objects.filter(slug=property_slug)
+
+    context = {
+        'single_properties': single_property
+    }
+
+
+    return render(request, 'realestate/pages/single_property.html', context)
