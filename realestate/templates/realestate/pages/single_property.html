@@ -40,7 +40,7 @@
                 <p><i class="fa fa-check text-primary me-3"></i>Address: {{ single_property.address }} </p>
                 <p><i class="fa fa-check text-primary me-3"></i>Agent Name: {{ single_property.agent.name }} </p>
                 <p><i class="fa fa-check text-primary me-3"></i>Agent Number: {{ single_property.agent.phone }} </p>
-                <a class="btn btn-primary py-3 px-5 mt-3" href="">Book Now</a>
+                <a class="btn btn-primary py-3 px-5 mt-3" href="{% url 'book' single_property.slug  %}">Book Now</a>
             </div>
         </div>
         {% endfor %}
