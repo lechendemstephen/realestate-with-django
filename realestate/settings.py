@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Users',
     'category',
     'agents',
+    'Booking',
 ]
 
 MIDDLEWARE = [

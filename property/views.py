@@ -1,5 +1,8 @@
-from django.shortcuts import render # type: ignore
+from django.shortcuts import render, redirect # type: ignore
 from .models import Property
+from Booking.models import Payments, Bookings
+from Booking.forms import BookingForm, PaymentForm
+from django.contrib import messages # type: ignore
 # Create your views here.
 
 def property(request): 
@@ -32,9 +35,50 @@ def single_property(request, property_slug):
 
 def book(request, property_slug): 
     property = Property.objects.get(slug=property_slug)
+    if request.method == 'POST': 
+        form = BookingForm(request.POST)
+        form1 = PaymentForm(request.POST)
+        if form.is_valid():
+            try: 
+                booking = Bookings (
+                    first_name = form.cleaned_data.get['first_name'],
+                    last_name = form.cleaned_data.get['last_name'],
+                    email = form.cleaned_data.get['email'],
+                    address_1 = form.cleaned_data.get['address_1'],
+                    address_2 = form.cleaned_data.get['address_2'],
+                    country = form.cleaned_data.get['country'],
+                    state = form.cleaned_data.get['state'],
+                    zip = form.cleaned_data.get['zip'],
+                )
+                payment = Payments(
+                    method = form1.cleaned_data.get['credit_card'],
+                    name_on_card = form1.cleaned_data.get['name_on_card'],
+                    expiration_date = form1.cleaned_data.get['expiration_date'],
+                    cvv = form1.cleaned_data.get['cvv']
+
+                )
+                booking.save()
+                payment.save()
+                messages.success(request, 'Your Reservation has been booked')
+
+                return redirect('booking')
+
+            except:
+                pass 
+
+    else: 
+        form = BookingForm()
+
+
 
     context ={
         'property': property,
     }
 
     return render(request, 'realestate/pages/booking.html', context)
+
+
+def booking(request): 
+    
+
+    return render(request, 'realestate/pages/booking.html')

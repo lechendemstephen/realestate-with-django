@@ -1,12 +1,15 @@
 from django.shortcuts import render # type: ignore
 from property.models import Property
+from  agents.models import Agent
 
 
 def home(request):
     property = Property.objects.all()
+    agent = Agent.objects.all()
 
     context = {
-        'properties': property
+        'properties': property,
+        'agents': agent,
     }
 
 
