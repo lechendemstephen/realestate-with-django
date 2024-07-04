@@ -27,5 +27,6 @@ urlpatterns = [
 # included paths from other apps 
     path('property/', include('property.urls')),
     path('account/', include('Users.urls')),
+    path('contact/', include('Contact.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

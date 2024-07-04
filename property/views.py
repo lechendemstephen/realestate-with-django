@@ -35,14 +35,16 @@ def single_property(request, property_slug):
 
 def book(request, property_slug): 
     property = Property.objects.get(slug=property_slug)
+    form = BookingForm(request.POST)
+    form1 = PaymentForm(request.POST)
     if request.method == 'POST': 
-        form = BookingForm(request.POST)
-        form1 = PaymentForm(request.POST)
-        if form.is_valid():
+        print(True)
+        if form.is_valid() and form1.is_valid():
             try: 
                 booking = Bookings (
                     first_name = form.cleaned_data.get['first_name'],
                     last_name = form.cleaned_data.get['last_name'],
+                    username = form.cleaned_data.get['username'],
                     email = form.cleaned_data.get['email'],
                     address_1 = form.cleaned_data.get['address_1'],
                     address_2 = form.cleaned_data.get['address_2'],
@@ -73,6 +75,8 @@ def book(request, property_slug):
 
     context ={
         'property': property,
+        'form': form,
+        'form1': form1,
     }
 
     return render(request, 'realestate/pages/booking.html', context)
